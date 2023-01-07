@@ -3,6 +3,7 @@
     users:
       - username: "roman"
         groups: "admin"
+        email: "roman@test.com"
   handlers:
     - name: "Restart sshd"
       ansible.builtin.systemd:
@@ -31,3 +32,17 @@
         regexp: "^PermitRootLogin"
         line: "PermitRootLogin no"
       notify: "Restart sshd"
+
+    - name: "install git"
+      ansible.builtin.apt:
+        name: git
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: "put git config"
+      ansible.builtin.template:
+        src: "files/.gitconfig"
+        dest: "/home/{{ item.username }}/"
+      with_items: "{{ users }}"
+      become: yes
