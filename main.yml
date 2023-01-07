@@ -1,0 +1,6 @@
+- name: Include user creator
+  ansible.builtin.import_playbook: users_control.yml
+
+
+- name: Include git install
+  ansible.builtin.import_playbook: git_install.yml

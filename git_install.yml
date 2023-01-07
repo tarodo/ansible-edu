@@ -1,9 +1,18 @@
 - hosts: webservers
+  vars_files:
+    - web_vars.yml
   gather_facts: no
   tasks:
-    - name: install git
+    - name: "install git"
       ansible.builtin.apt:
         name: git
         state: present
         update_cache: yes
+      become: yes
+
+    - name: "put git config"
+      ansible.builtin.template:
+        src: "files/.gitconfig"
+        dest: "/home/{{ item.username }}/"
+      with_items: "{{ users }}"
       become: yes

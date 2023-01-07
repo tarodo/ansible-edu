@@ -1,0 +1,4 @@
+users:
+  - username: "roman"
+    groups: "admin"
+    email: "roman@test.com"
